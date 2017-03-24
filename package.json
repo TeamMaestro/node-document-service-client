@@ -1,5 +1,6 @@
 {
-  "name": "maestro-media-service",
+  "name": "media-service-client",
+  "private": true,
   "version": "0.1.0",
   "description": "A TypeScript node.js client that interfaces with the Maestro Media Service",
   "main": "./dist/index.js",
