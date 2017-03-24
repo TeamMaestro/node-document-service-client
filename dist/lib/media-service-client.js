@@ -26,7 +26,12 @@ var mediaService = (function () {
                 if (err != undefined) {
                     reject(err);
                 }
-                resolve(JSON.parse(body));
+                try {
+                    resolve(JSON.parse(body));
+                }
+                catch (e) {
+                    reject(e);
+                }
             });
         });
     };
@@ -85,7 +90,12 @@ var mediaService = (function () {
                 if (err != undefined) {
                     reject(err);
                 }
-                resolve(JSON.parse(body));
+                try {
+                    resolve(JSON.parse(body));
+                }
+                catch (e) {
+                    reject(e);
+                }
             });
         });
     };
