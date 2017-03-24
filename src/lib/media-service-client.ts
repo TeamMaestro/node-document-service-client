@@ -21,8 +21,6 @@ export class mediaService {
 
     getSigningData(): Promise<MediaServiceSigningData> {
         return new Promise((resolve, reject) => {
-            
-            console.log("Sending GET to: " + this.mediaApiUrl + '/sign/upload');
 
             request({
                 headers: {
@@ -36,9 +34,13 @@ export class mediaService {
                 if (err != undefined) {
                     reject(err);
                 }
-                console.log("received data");
-                console.log(body);
-                resolve(JSON.parse(body));
+
+                try {
+                    resolve(JSON.parse(body));
+                } catch(e) {
+                    reject(e);
+                }
+                
             });
 
         });
@@ -115,7 +117,12 @@ export class mediaService {
                 if (err != undefined) {
                     reject(err);
                 }
-                resolve(JSON.parse(body));
+
+                try {
+                    resolve(JSON.parse(body));
+                } catch(e) {
+                    reject(e);
+                }
             });
 
         });

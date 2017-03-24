@@ -14,7 +14,6 @@ var mediaService = (function () {
     mediaService.prototype.getSigningData = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            console.log("Sending GET to: " + _this.mediaApiUrl + '/sign/upload');
             request({
                 headers: {
                     'media-api-key': _this.mediaApiKey,
@@ -27,8 +26,6 @@ var mediaService = (function () {
                 if (err != undefined) {
                     reject(err);
                 }
-                console.log("received data");
-                console.log(body);
                 resolve(JSON.parse(body));
             });
         });
