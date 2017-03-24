@@ -10,7 +10,7 @@ export class mediaService {
     mediaApiKey: string;
     mediaApiSecret: string;
     mediaApiCustomer: string;
-    mediaApiUrl: string; //'http://dev-media.meetmaestro.com/api/v1/'
+    mediaApiUrl: string;
 
     constructor(config: MediaServiceConfig) {
         this.mediaApiKey = config.mediaApiKey;
