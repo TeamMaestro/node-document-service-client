@@ -21,7 +21,7 @@ var mediaService = (function () {
                     'media-api-secret': _this.mediaApiSecret,
                     'media-api-customer': _this.mediaApiCustomer
                 },
-                uri: _this.mediaApiUrl + '/sign/upload',
+                uri: _this.mediaApiUrl + 'sign/upload',
                 method: 'GET'
             }, function (err, res, body) {
                 if (err != undefined) {
@@ -82,7 +82,7 @@ var mediaService = (function () {
                     'media-api-secret': _this.mediaApiSecret,
                     'media-api-customer': _this.mediaApiCustomer
                 },
-                uri: _this.mediaApiUrl + '/sign/url?path=' + keyUrl,
+                uri: _this.mediaApiUrl + 'sign/url?path=' + keyUrl,
                 method: 'GET'
             }, function (err, res, body) {
                 if (err != undefined) {

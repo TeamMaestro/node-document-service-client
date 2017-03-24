@@ -30,7 +30,7 @@ export class mediaService {
                     'media-api-secret': this.mediaApiSecret,
                     'media-api-customer': this.mediaApiCustomer
                 },
-                uri: this.mediaApiUrl + '/sign/upload',
+                uri: this.mediaApiUrl + 'sign/upload',
                 method: 'GET'
             }, (err, res, body) => {
                 if (err != undefined) {
@@ -109,7 +109,7 @@ export class mediaService {
                     'media-api-secret': this.mediaApiSecret,
                     'media-api-customer': this.mediaApiCustomer
                 },
-                uri: this.mediaApiUrl + '/sign/url?path=' + keyUrl,
+                uri: this.mediaApiUrl + 'sign/url?path=' + keyUrl,
                 method: 'GET'
             }, (err, res, body) => {
                 if (err != undefined) {
