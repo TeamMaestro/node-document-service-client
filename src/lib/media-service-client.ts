@@ -36,6 +36,8 @@ export class mediaService {
                 if (err != undefined) {
                     reject(err);
                 }
+                console.log("received data");
+                console.log(body);
                 resolve(JSON.parse(body));
             });
 
