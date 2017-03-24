@@ -22,6 +22,8 @@ export class mediaService {
     getSigningData(): Promise<MediaServiceSigningData> {
         return new Promise((resolve, reject) => {
             
+            console.log("Sending GET to: " + this.mediaApiUrl + '/sign/upload');
+
             request({
                 headers: {
                     'media-api-key': this.mediaApiKey,
@@ -58,6 +60,8 @@ export class mediaService {
                     signature: signingData.signature,
                     file: fs.createReadStream(localFile)
                 };
+
+                console.log("Sending POST to: " + signingData.url);
 
                 request.post({
                     url: signingData.url,

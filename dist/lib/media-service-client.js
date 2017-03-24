@@ -14,6 +14,7 @@ var mediaService = (function () {
     mediaService.prototype.getSigningData = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
+            console.log("Sending GET to: " + _this.mediaApiUrl + '/sign/upload');
             request({
                 headers: {
                     'media-api-key': _this.mediaApiKey,
@@ -44,6 +45,7 @@ var mediaService = (function () {
                     signature: signingData.signature,
                     file: fs.createReadStream(localFile)
                 };
+                console.log("Sending POST to: " + signingData.url);
                 request.post({
                     url: signingData.url,
                     formData: form
