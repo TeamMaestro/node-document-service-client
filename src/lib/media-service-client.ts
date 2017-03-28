@@ -3,9 +3,10 @@ import * as fs from 'fs';
 import * as _ from 'lodash';
 import * as mime from 'mime';
 
-import { MediaServiceConfig, MediaServiceFileConfig, MediaServiceSigningData, MediaServiceDownloadInfo, MediaServiceSigningDataByFile } from './media-service-interfaces';
+import { MediaServiceConfig, MediaServiceFileConfig, MediaServiceSigningData,
+         MediaServiceDownloadInfo, MediaServiceSigningDataByFile } from './media-service-interfaces';
 
-export class mediaService {
+export class MediaService {
 
     mediaApiKey: string;
     mediaApiSecret: string;
