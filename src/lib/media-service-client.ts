@@ -93,7 +93,7 @@ export class MediaService {
 
             var promises: Promise<MediaServiceSigningData>[] = [];
 
-            _.each(localFiles, (localFile) => {
+            _.each(localFiles, localFile => {
                 promises.push(this.uploadFile(localFile));
             });
 
