@@ -56,6 +56,10 @@ export class MediaService {
 
             return new Promise((resolve, reject) => {
 
+                if (!fs.existsSync(localFile)) {
+                    reject("Missing File: " + localFile);
+                }
+
                 var form = {
                     key: signingData.key + "." + fileExtension,
                     'Content-Type': mime.lookup(fileExtension),
