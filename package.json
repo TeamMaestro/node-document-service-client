@@ -6,7 +6,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "start": "node ./dist/index.js"
+    "start": "node ./dist/index.js",
+    "postinstall": "tsc"
   },
   "devDependencies": {
     "typescript": "^2.0.0"
