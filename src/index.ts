@@ -1,1 +1,1 @@
-export * from './lib/media-service-client';
+export * from './lib/document-service-client';

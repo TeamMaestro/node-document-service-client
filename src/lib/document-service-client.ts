@@ -3,24 +3,24 @@ import * as fs from 'fs';
 import * as _ from 'lodash';
 import * as mime from 'mime';
 
-import { MediaServiceConfig, MediaServiceFileConfig, MediaServiceSigningData,
-         MediaServiceDownloadInfo, MediaServiceSigningDataByFile } from './media-service-interfaces';
+import { DocumentServiceConfig, DocumentServiceFileConfig, DocumentServiceSigningData,
+         DocumentServiceDownloadInfo, DocumentServiceSigningDataByFile } from './document-service-interfaces';
 
-export class MediaService {
+export class DocumentService {
 
     mediaApiKey: string;
     mediaApiSecret: string;
     mediaApiCustomer: string;
     mediaApiUrl: string;
 
-    constructor(config: MediaServiceConfig) {
+    constructor(config: DocumentServiceConfig) {
         this.mediaApiKey = config.mediaApiKey;
         this.mediaApiSecret = config.mediaApiSecret;
         this.mediaApiCustomer = config.mediaApiCustomer;
         this.mediaApiUrl = config.mediaApiUrl;
     }
 
-    getSigningData(): Promise<MediaServiceSigningData> {
+    getSigningData(): Promise<DocumentServiceSigningData> {
         return new Promise((resolve, reject) => {
 
             request({
@@ -47,7 +47,7 @@ export class MediaService {
         });
     }
 
-    uploadFile(fileData: MediaServiceFileConfig): Promise<MediaServiceSigningData> {
+    uploadFile(fileData: DocumentServiceFileConfig): Promise<DocumentServiceSigningData> {
 
         var localFile = fileData.directory + '/' + fileData.filename;
         var fileExtension = (fileData.fileExtension ? fileData.fileExtension : fileData.filename.split(".").pop());
@@ -93,9 +93,9 @@ export class MediaService {
 
     }
 
-    uploadBulkFiles(localFiles: MediaServiceFileConfig[]): Promise<MediaServiceSigningDataByFile> {
+    uploadBulkFiles(localFiles: DocumentServiceFileConfig[]): Promise<DocumentServiceSigningDataByFile> {
 
-            var promises: Promise<MediaServiceSigningData>[] = [];
+            var promises: Promise<DocumentServiceSigningData>[] = [];
 
             _.each(localFiles, localFile => {
                 promises.push(this.uploadFile(localFile));
@@ -107,7 +107,7 @@ export class MediaService {
 
     }
 
-    getFileUrlForDownload(keyUrl: string): Promise<MediaServiceDownloadInfo> {
+    getFileUrlForDownload(keyUrl: string): Promise<DocumentServiceDownloadInfo> {
         return new Promise((resolve, reject) => {
             
             request({

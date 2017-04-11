@@ -1,17 +1,17 @@
-export interface MediaServiceConfig {
+export interface DocumentServiceConfig {
     mediaApiKey: string;
     mediaApiSecret: string;
     mediaApiCustomer: string;
     mediaApiUrl: string;
 }
 
-export interface MediaServiceFileConfig {
+export interface DocumentServiceFileConfig {
     directory: string;
     filename: string;
     fileExtension?: string;
 }
 
-export interface MediaServiceSigningData {
+export interface DocumentServiceSigningData {
     // Everything in this top section is returned by the Media Service Sign Upload
     key: string;
     AWSAccessKeyId: string;
@@ -24,11 +24,11 @@ export interface MediaServiceSigningData {
     fileExtension? : string;                
 }
 
-export interface MediaServiceDownloadInfo {
+export interface DocumentServiceDownloadInfo {
   url: string;
   expiration: number;
 }
 
-export interface MediaServiceSigningDataByFile {
-    [index: string]: MediaServiceSigningData
+export interface DocumentServiceSigningDataByFile {
+    [index: string]: DocumentServiceSigningData
 }

@@ -1,22 +1,22 @@
-# maestro-media-service
-A TypeScript node.js client that interfaces with the Maestro Media Service
+# maestro-document-service-client
+A TypeScript node.js client that interfaces with the Maestro Document Management Service
 
 ## Getting Started Using Bookmark
 
 Run this npm install to download and install the latest stable version.
 
-> npm install --save git+ssh://git@github.com/TeamMaestro/node-media-service-client.git
+> npm install --save git+ssh://git@github.com/TeamMaestro/node-document-service-client.git
 
-All you need to do is point to the media-service-client folder within your project and the client will be exported into your script from the latest build.
+All you need to do is point to the document-service-client folder within your project and the client will be exported into your script from the latest build.
 
-`import { mediaService } from 'node-media-service-client';`
+`import { documentService } from 'node-document-service-client';`
 
-## Getting Started Developing the Media Service Client for Node
+## Getting Started Developing the Document Service Client for Node
 
 If you want to contribute, this is what you need to do. Download the git repo.
 
 Enter the client directory
-> cd node-media-service-client
+> cd node-document-service-client
 
 Install the dependencies
 > npm install

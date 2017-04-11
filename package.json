@@ -1,8 +1,8 @@
 {
-  "name": "media-service-client",
+  "name": "document-service-client",
   "private": true,
   "version": "0.1.0",
-  "description": "A TypeScript node.js client that interfaces with the Maestro Media Service",
+  "description": "A TypeScript node.js client that interfaces with the Maestro Document Service",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -12,11 +12,10 @@
   "devDependencies": {
     "typescript": "^2.0.0"
   },
-  "author": "Eddie Hinkle <hello@eddiehinkle.com> (http://eddiehinkle.com)",
-  "repository" :
-  {
-    "type" : "git",
-    "url" : "https://github.com/TeamMaestro/node-media-service-client/"
+  "author": "Eddie Hinkle <hello@eddiehinkle.com> (https://eddiehinkle.com)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TeamMaestro/node-document-service-client/"
   },
   "license": "ISC",
   "dependencies": {
@@ -27,6 +26,7 @@
     "@types/request": "0.0.42",
     "lodash": "^4.17.4",
     "mime": "^1.3.4",
-    "request": "^2.81.0"
+    "request": "^2.81.0",
+    "tslint": "^5.1.0"
   }
 }
