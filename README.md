@@ -1,7 +1,7 @@
 # maestro-document-service-client
 A TypeScript node.js client that interfaces with the Maestro Document Management Service
 
-## Getting Started Using Bookmark
+## Getting Started Using Maestro Document Management Service
 
 Run this npm install to download and install the latest stable version.
 
