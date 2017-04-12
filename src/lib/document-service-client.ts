@@ -2,6 +2,7 @@ import * as request from 'request';
 import * as fs from 'fs';
 import * as _ from 'lodash';
 import * as mime from 'mime';
+import * as Promise from 'bluebird';
 
 import { DocumentServiceConfig, DocumentServiceFileConfig, DocumentServiceSigningData,
          DocumentServiceDownloadInfo, DocumentServiceSigningDataByFile } from './document-service-interfaces';
@@ -20,7 +21,7 @@ export class DocumentService {
         this.mediaApiUrl = config.mediaApiUrl;
     }
 
-    getSigningData(): Promise<DocumentServiceSigningData> {
+    getSigningData(): Promise<{}> {
         return new Promise((resolve, reject) => {
 
             request({
@@ -47,12 +48,12 @@ export class DocumentService {
         });
     }
 
-    uploadFile(fileData: DocumentServiceFileConfig): Promise<DocumentServiceSigningData> {
+    uploadFile(fileData: DocumentServiceFileConfig): Promise<{}> {
 
         var localFile = fileData.directory + '/' + fileData.filename;
         var fileExtension = (fileData.fileExtension ? fileData.fileExtension : fileData.filename.split(".").pop());
 
-        return this.getSigningData().then((signingData) => {
+        return this.getSigningData().then((signingData: DocumentServiceSigningData) => {
 
             return new Promise((resolve, reject) => {
 
@@ -93,9 +94,9 @@ export class DocumentService {
 
     }
 
-    uploadBulkFiles(localFiles: DocumentServiceFileConfig[]): Promise<DocumentServiceSigningDataByFile> {
+    uploadBulkFiles(localFiles: {}[]): Promise<{}> {
 
-            var promises: Promise<DocumentServiceSigningData>[] = [];
+            var promises: Promise<{}>[] = [];
 
             _.each(localFiles, localFile => {
                 promises.push(this.uploadFile(localFile));
@@ -107,7 +108,7 @@ export class DocumentService {
 
     }
 
-    getFileUrlForDownload(keyUrl: string): Promise<DocumentServiceDownloadInfo> {
+    getFileUrlForDownload(keyUrl: string): Promise<{}> {
         return new Promise((resolve, reject) => {
             
             request({
