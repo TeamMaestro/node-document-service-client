@@ -36,6 +36,9 @@ export class DocumentService {
                 if (err != undefined) {
                     reject(err);
                 }
+                if (body.code !== undefined) {
+                    reject(body.code);
+                }
 
                 console.log("Signing Data Returned");
                 console.log(body);
