@@ -1,7 +1,7 @@
 {
   "name": "document-service-client",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A TypeScript node.js client that interfaces with the Maestro Document Service",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
