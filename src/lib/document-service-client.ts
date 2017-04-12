@@ -9,16 +9,16 @@ import { DocumentServiceConfig, DocumentServiceFileConfig, DocumentServiceSignin
 
 export class DocumentService {
 
-    mediaApiKey: string;
-    mediaApiSecret: string;
-    mediaApiCustomer: string;
-    mediaApiUrl: string;
+    documentApiKey: string;
+    documentApiSecret: string;
+    documentApiCustomer: string;
+    documentApiUrl: string;
 
     constructor(config: DocumentServiceConfig) {
-        this.mediaApiKey = config.mediaApiKey;
-        this.mediaApiSecret = config.mediaApiSecret;
-        this.mediaApiCustomer = config.mediaApiCustomer;
-        this.mediaApiUrl = config.mediaApiUrl;
+        this.documentApiKey = config.documentApiKey;
+        this.documentApiSecret = config.documentApiSecret;
+        this.documentApiCustomer = config.documentApiCustomer;
+        this.documentApiUrl = config.documentApiUrl;
     }
 
     getSigningData(): Promise<{}> {
@@ -26,11 +26,11 @@ export class DocumentService {
 
             request({
                 headers: {
-                    'media-api-key': this.mediaApiKey,
-                    'media-api-secret': this.mediaApiSecret,
-                    'media-api-customer': this.mediaApiCustomer
+                    'media-api-key': this.documentApiKey,
+                    'media-api-secret': this.documentApiSecret,
+                    'media-api-customer': this.documentApiCustomer
                 },
-                uri: this.mediaApiUrl + 'pre-sign',
+                uri: this.documentApiUrl + 'pre-sign',
                 method: 'GET'
             }, (err, res, body) => {
                 if (err != undefined) {
@@ -123,11 +123,11 @@ export class DocumentService {
             
             request({
                 headers: {
-                    'media-api-key': this.mediaApiKey,
-                    'media-api-secret': this.mediaApiSecret,
-                    'media-api-customer': this.mediaApiCustomer
+                    'media-api-key': this.documentApiKey,
+                    'media-api-secret': this.documentApiSecret,
+                    'media-api-customer': this.documentApiCustomer
                 },
-                uri: this.mediaApiUrl + 'sign?path=' + keyUrl,
+                uri: this.documentApiUrl + 'sign?path=' + keyUrl,
                 method: 'GET'
             }, (err, res, body) => {
                 if (err != undefined) {

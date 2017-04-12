@@ -1,8 +1,8 @@
 export interface DocumentServiceConfig {
-    mediaApiKey: string;
-    mediaApiSecret: string;
-    mediaApiCustomer: string;
-    mediaApiUrl: string;
+    documentApiKey: string;
+    documentApiSecret: string;
+    documentApiCustomer: string;
+    documentApiUrl: string;
 }
 
 export interface DocumentServiceFileConfig {
@@ -12,7 +12,7 @@ export interface DocumentServiceFileConfig {
 }
 
 export interface DocumentServiceSigningData {
-    // Everything in this top section is returned by the Media Service Sign Upload
+    // Everything in this top section is returned by the Document Service Sign Upload
     key: string;
     AWSAccessKeyId: string;
     acl: string;
