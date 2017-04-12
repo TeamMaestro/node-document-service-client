@@ -2,38 +2,42 @@ import * as request from 'request';
 import * as fs from 'fs';
 import * as _ from 'lodash';
 import * as mime from 'mime';
+import * as Promise from 'bluebird';
 
 import { DocumentServiceConfig, DocumentServiceFileConfig, DocumentServiceSigningData,
          DocumentServiceDownloadInfo, DocumentServiceSigningDataByFile } from './document-service-interfaces';
 
 export class DocumentService {
 
-    mediaApiKey: string;
-    mediaApiSecret: string;
-    mediaApiCustomer: string;
-    mediaApiUrl: string;
+    documentApiKey: string;
+    documentApiSecret: string;
+    documentApiCustomer: string;
+    documentApiUrl: string;
 
     constructor(config: DocumentServiceConfig) {
-        this.mediaApiKey = config.mediaApiKey;
-        this.mediaApiSecret = config.mediaApiSecret;
-        this.mediaApiCustomer = config.mediaApiCustomer;
-        this.mediaApiUrl = config.mediaApiUrl;
+        this.documentApiKey = config.documentApiKey;
+        this.documentApiSecret = config.documentApiSecret;
+        this.documentApiCustomer = config.documentApiCustomer;
+        this.documentApiUrl = config.documentApiUrl;
     }
 
-    getSigningData(): Promise<DocumentServiceSigningData> {
+    getSigningData(): Promise<{}> {
         return new Promise((resolve, reject) => {
 
             request({
                 headers: {
-                    'media-api-key': this.mediaApiKey,
-                    'media-api-secret': this.mediaApiSecret,
-                    'media-api-customer': this.mediaApiCustomer
+                    'media-api-key': this.documentApiKey,
+                    'media-api-secret': this.documentApiSecret,
+                    'media-api-customer': this.documentApiCustomer
                 },
-                uri: this.mediaApiUrl + 'pre-sign',
+                uri: this.documentApiUrl + 'pre-sign',
                 method: 'GET'
             }, (err, res, body) => {
                 if (err != undefined) {
                     reject(err);
+                }
+                if (body.code !== undefined) {
+                    reject(body.code);
                 }
 
                 try {
@@ -47,12 +51,12 @@ export class DocumentService {
         });
     }
 
-    uploadFile(fileData: DocumentServiceFileConfig): Promise<DocumentServiceSigningData> {
+    uploadFile(fileData: DocumentServiceFileConfig): Promise<{}> {
 
         var localFile = fileData.directory + '/' + fileData.filename;
         var fileExtension = (fileData.fileExtension ? fileData.fileExtension : fileData.filename.split(".").pop());
 
-        return this.getSigningData().then((signingData) => {
+        return this.getSigningData().then((signingData: DocumentServiceSigningData) => {
 
             return new Promise((resolve, reject) => {
 
@@ -69,8 +73,6 @@ export class DocumentService {
                     signature: signingData.signature,
                     file: fs.createReadStream(localFile)
                 };
-
-                console.log("Sending POST to: " + signingData.url);
 
                 request.post({
                     url: signingData.url,
@@ -93,11 +95,11 @@ export class DocumentService {
 
     }
 
-    uploadBulkFiles(localFiles: DocumentServiceFileConfig[]): Promise<DocumentServiceSigningDataByFile> {
+    uploadBulkFiles(localFiles: {}[]): Promise<{}> {
 
-            var promises: Promise<DocumentServiceSigningData>[] = [];
+            var promises: Promise<{}>[] = [];
 
-            _.each(localFiles, localFile => {
+            _.each(localFiles, (localFile: DocumentServiceFileConfig) => {
                 promises.push(this.uploadFile(localFile));
             });
 
@@ -107,16 +109,16 @@ export class DocumentService {
 
     }
 
-    getFileUrlForDownload(keyUrl: string): Promise<DocumentServiceDownloadInfo> {
+    getFileUrlForDownload(keyUrl: string): Promise<{}> {
         return new Promise((resolve, reject) => {
             
             request({
                 headers: {
-                    'media-api-key': this.mediaApiKey,
-                    'media-api-secret': this.mediaApiSecret,
-                    'media-api-customer': this.mediaApiCustomer
+                    'media-api-key': this.documentApiKey,
+                    'media-api-secret': this.documentApiSecret,
+                    'media-api-customer': this.documentApiCustomer
                 },
-                uri: this.mediaApiUrl + 'sign?path=' + keyUrl,
+                uri: this.documentApiUrl + 'sign?path=' + keyUrl,
                 method: 'GET'
             }, (err, res, body) => {
                 if (err != undefined) {
