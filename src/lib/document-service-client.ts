@@ -37,6 +37,9 @@ export class DocumentService {
                     reject(err);
                 }
 
+                console.log("Signing Data Returned");
+                console.log(body);
+
                 try {
                     resolve(JSON.parse(body));
                 } catch(e) {
@@ -53,6 +56,8 @@ export class DocumentService {
         var localFile = fileData.directory + '/' + fileData.filename;
         var fileExtension = (fileData.fileExtension ? fileData.fileExtension : fileData.filename.split(".").pop());
 
+        console.log("Calling Upload File");
+
         return this.getSigningData().then((signingData: DocumentServiceSigningData) => {
 
             return new Promise((resolve, reject) => {
@@ -60,6 +65,8 @@ export class DocumentService {
                 if (!fs.existsSync(localFile)) {
                     reject("Missing File: " + localFile);
                 }
+
+                console.log("Prepping Form Data");
 
                 var form = {
                     key: signingData.key + "." + fileExtension,
@@ -98,11 +105,14 @@ export class DocumentService {
 
             var promises: Promise<{}>[] = [];
 
-            _.each(localFiles, localFile => {
+            console.log("Bulk Upload Start");
+
+            _.each(localFiles, (localFile: DocumentServiceFileConfig) => {
                 promises.push(this.uploadFile(localFile));
             });
 
             return Promise.all(promises).then((files) => {
+                console.log("Bulk Upload Complete");
                 return _.keyBy(files, 'originalFilename');
             });
 
