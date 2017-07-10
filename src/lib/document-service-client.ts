@@ -43,6 +43,8 @@ export class DocumentService {
                 try {
                     resolve(JSON.parse(body));
                 } catch(e) {
+                    console.log("JSON ERROR");
+                    console.log(body);
                     reject(e);
                 }
                 
@@ -128,6 +130,8 @@ export class DocumentService {
                 try {
                     resolve(JSON.parse(body));
                 } catch(e) {
+                    console.log("JSON ERROR");
+                    console.log(body);
                     reject(e);
                 }
             });
