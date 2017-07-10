@@ -2,4 +2,3 @@ node_modules
 typings
 .DS_Store
 /npm-debug.log
-/dist
