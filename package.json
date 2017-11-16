@@ -1,32 +1,41 @@
 {
-  "name": "document-service-client",
-  "private": true,
+  "name": "@teammaestro/node-document-service-client",
+  "private": false,
   "version": "0.1.1",
   "description": "A TypeScript node.js client that interfaces with the Maestro Document Service",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "index.js",
+  "typings": "index.d.ts",
   "scripts": {
-    "start": "node ./dist/index.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "tsc -w",
+    "prepublishOnly": "tsc",
+    "prepack": "tsc",
+    "postpack": "rm *.d.ts && rm *.js"
   },
-  "devDependencies": {
-    "typescript": "^2.0.0"
-  },
-  "author": "Eddie Hinkle <hello@eddiehinkle.com> (https://eddiehinkle.com)",
+  "author": "Maestro LLC",
+  "contributors": [
+    "Eddie Hinkle <hello@eddiehinkle.com> (https://eddiehinkle.com)",
+    "John Pinkster <jpinkster>"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/TeamMaestro/node-document-service-client/"
   },
-  "license": "ISC",
+  "license": "Apache 2.0",
   "dependencies": {
+    "lodash": "^4.17.4",
+    "mime": "^1.3.4",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
+  },
+  "devDependencies": {
     "@types/bluebird": "^3.5.2",
     "@types/lodash": "^4.14.58",
     "@types/mime": "0.0.29",
     "@types/node": "^7.0.10",
-    "@types/request": "0.0.42",
-    "bluebird": "^3.5.0",
-    "lodash": "^4.17.4",
-    "mime": "^1.3.4",
-    "request": "^2.81.0",
+    "@types/request": "^2.0.7",
+    "@types/request-promise": "^4.1.39",
+    "typescript": "^2.0.0",
     "tslint": "^5.1.0"
   }
 }
