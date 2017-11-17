@@ -9,7 +9,7 @@ Run this to install the latest stable version.
 npm i @teammaestro/node-document-service
 ```
 
-All you need to do is point is import `@teammaestro/node-document-service` within your project and the client will be exported into your script from the latest build.
+Import `@teammaestro/node-document-service` and the client will be exported into your script from the latest build.
 
 `import { DocumentService } from 'node-document-service';`
 
@@ -17,11 +17,14 @@ All you need to do is point is import `@teammaestro/node-document-service` withi
 ## Overview
 ### new DocumentService({ host: string, apiKey: string, apiSecret: string, apiCustomer: string, logging: boolean })
 **Parameters:**
-* host (string | _optional_ | _default: https://dms.meetmaestro.com_) - The domain that the Maestro Document Service is located at
-* apiKey (string | _required_) - The API Key you are given to communication with DMS
-* apiSecret (string | _required_) - The API Secret you are given to communication with DMS
-* apiCustomer (string | _required_) - The API Customer you are given to communication with DMS
-* logging (boolean | _optional_ | _default: false_) - Use this to turn on logging of all requests
+
+|Name|Type|Status|Description|
+|---|---|---|---|
+|host|string|_optional_|_default: https://dms.meetmaestro.com_) - The domain that the Maestro Document Service is located at.|
+|apiKey|string|_required_| The API Key you are given to communication with DMS|
+|apiSecret|string|_required_| The API Secret you are given to communication with DMS|
+|apiCustomer|string|_required_| The API Customer you are given to communication with DMS|
+|logging|boolean|_optional_| _default: false_ - Use this to turn on logging of all requests|
 
 
 **Request Example:**
@@ -37,10 +40,14 @@ new DocumentService({
 
 ### .catch()
 Whenever the API makes a call and runs into a catch block, you will get an error block that looks consistently like this:
-* error (Error) - The exception that was thrown
-* status (number) - The HTTP Status Code
-* message (string) - The HTTP error message (some are custom mapped)
-* duration (number) - How long the response took in miliseconds
+
+|Name|Type|Description|
+|---|---|---|
+|error|Error|The exception that was thrown|
+|status|number|The HTTP Status Code|
+|message|string|The HTTP error message (some are custom mapped)|
+|duration|number|How long the response took in miliseconds|
+
 **Response Example:**
 ```
 {
@@ -55,14 +62,17 @@ Whenever the API makes a call and runs into a catch block, you will get an error
 
 This endpoint is used for creating policies in order to upload content to your S3 bucket Note: You must send the payload to S3 in the order that we send them back.
 
-You can append anything you want to the `key` property (including the file extension)
+You can append anything you want to the `key` property (including the file extension).
 
 You can also update the `Content-Type` to the real mime-type.
 
 **Parameters**
-* fileName (string | _optional_) - Set this if you want to name the file.
-* acl (string | _optional_ | _default: private_) - This is the permissions for the file. Options are `private|public`
-* expiration (number | _optional_ | _default: 1800_) - This is expiration time for the signature in seconds
+
+|Name|Type|Status|Description|
+|---|---|---|---|
+|fileName|string | _optional_ | Set this if you want to name the file.|
+|acl|string | _optional_ | _default: private_ - This is the permissions for the file. Options are `private|public`|
+|expiration|number | _optional_ | _default: 1800_ - This is expiration time for the signature in seconds|
 
 **Request Example:**
 ```javascript
@@ -91,8 +101,11 @@ dms.getPreSignedConfig({
 This endpoint is used for signing your S3 private content
 
 **Parameters**
-* url (string | _required_) - The url of the private S3 content you want to view
-* expiration (number | _optional_ | _default: 1800_) - This is expiration time for the signature in seconds
+
+|Name|Type|Status|Description|
+|---|---|---|---|
+|url|string|_required_| The url of the private S3 content you want to view|
+|expiration|number| _optional_ | _default: 1800_ - This is expiration time for the signature in seconds|
 
 **Request Example:**
 ```javascript
