@@ -18,13 +18,13 @@ Import `@teammaestro/node-document-service` and the client will be exported into
 ### new DocumentService({ host: string, apiKey: string, apiSecret: string, apiCustomer: string, logging: boolean })
 **Parameters:**
 
-|Name|Type|Status|Description|
+|Name|Type|Required|Description|
 |---|---|---|---|
-|host|string|_optional_|_default: https://dms.meetmaestro.com_) - The domain that the Maestro Document Service is located at.|
-|apiKey|string|_required_| The API Key you are given to communication with DMS|
-|apiSecret|string|_required_| The API Secret you are given to communication with DMS|
-|apiCustomer|string|_required_| The API Customer you are given to communication with DMS|
-|logging|boolean|_optional_| _default: false_ - Use this to turn on logging of all requests|
+|host|string|False (_default: https://dms.meetmaestro.com_)| The domain that the Maestro Document Service is located at.|
+|apiKey|string|True| The API Key you are given to communication with DMS|
+|apiSecret|string|True| The API Secret you are given to communication with DMS|
+|apiCustomer|string|True| The API Customer you are given to communication with DMS|
+|logging|boolean|False (_default: false_)| Use this to turn on logging of all requests|
 
 
 **Request Example:**
@@ -68,11 +68,11 @@ You can also update the `Content-Type` to the real mime-type.
 
 **Parameters**
 
-|Name|Type|Status|Description|
+|Name|Type|Required|Description|
 |---|---|---|---|
-|fileName|string | _optional_ | Set this if you want to name the file.|
-|acl|string | _optional_ | _default: private_ - This is the permissions for the file. Options are `private|public`|
-|expiration|number | _optional_ | _default: 1800_ - This is expiration time for the signature in seconds|
+|fileName|string | False (_default: UUID_)| Set this if you want to name the file.|
+|acl|string | False (_default: private_)| This is the permissions for the file. Options are `private|public`|
+|expiration|number | False (_default: 1800_) | This is expiration time for the signature in seconds|
 
 **Request Example:**
 ```javascript
@@ -102,10 +102,10 @@ This endpoint is used for signing your S3 private content
 
 **Parameters**
 
-|Name|Type|Status|Description|
+|Name|Type|Required|Description|
 |---|---|---|---|
-|url|string|_required_| The url of the private S3 content you want to view|
-|expiration|number| _optional_ | _default: 1800_ - This is expiration time for the signature in seconds|
+|url|string|True| The url of the private S3 content you want to view|
+|expiration|number| False (_default: 1800_)| This is expiration time for the signature in seconds|
 
 **Request Example:**
 ```javascript
