@@ -1,11 +1,13 @@
 # node-document-service
 A TypeScript NodeJS client that interfaces with the Maestro Document Service
 
-## Getting Started
+# Getting Started
 
 Run this to install the latest stable version.
 
-> npm i @teammaestro/node-document-service
+```
+npm i @teammaestro/node-document-service
+```
 
 All you need to do is point is import `@teammaestro/node-document-service` within your project and the client will be exported into your script from the latest build.
 
@@ -103,3 +105,9 @@ dms.getSignedUrl('https://new-media-test-bucket.s3.amazonaws.com/test.pdf', 2000
   "expiration": "2017-04-06T14:49:16.267Z"
 }
 ```
+
+# Contributors
+
+[<img alt="John Pinkster" src="https://avatars1.githubusercontent.com/u/5350861?v=3&s=460" width="117">](https://github.com/jpinkster)|
+:---: |
+[John Pinkster](https://github.com/jpinkster)|
