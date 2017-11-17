@@ -63,8 +63,6 @@ export class DocumentService {
         if (options.headers && options.headers.length > 0) {
             requestOptions.headers = Object.assign({}, requestOptions.headers, options.headers);
         }
-        // tslint:disable-next-line:no-console
-        console.log(requestOptions.uri);
         return new Promise((resolve, reject) => {
             request(requestOptions as any).then(response => {
                 if (this.logging) {
