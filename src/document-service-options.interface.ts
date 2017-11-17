@@ -27,6 +27,12 @@ export namespace DocumentServiceOptions {
         fileExtension?: string;
     }
 
+    export interface PreSignOptions {
+        fileName?: string;
+        acl?: 'private' | 'public';
+        expiration?: number;
+    }
+
     export interface SigningData {
         // Everything in this top section is returned by the Document Service Sign Upload
         key: string;

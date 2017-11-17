@@ -1,21 +1,21 @@
-# node-document-service-client
-A TypeScript NodeJS client that interfaces with the Maestro Document Management Service
+# node-document-service
+A TypeScript NodeJS client that interfaces with the Maestro Document Service
 
 ## Getting Started
 
 Run this to install the latest stable version.
 
-> npm i @teammaestro/node-document-service-client
+> npm i @teammaestro/node-document-service
 
-All you need to do is point is import `@teammaestro/node-document-service-client` within your project and the client will be exported into your script from the latest build.
+All you need to do is point is import `@teammaestro/node-document-service` within your project and the client will be exported into your script from the latest build.
 
-`import { DocumentService } from 'node-document-service-client';`
+`import { DocumentService } from 'node-document-service';`
 
 # Documentation
 ## Overview
-### new DocumentService(options: any)
+### new DocumentService({ host: string, apiKey: string, apiSecret: string, apiCustomer: string, logging: boolean })
 **Parameters:**
-* host (string | _optional_ | _default: 127.0.0.1_) - The domain that the Maestro Document Service is located at
+* host (string | _optional_ | _default: https://dms.meetmaestro.com_) - The domain that the Maestro Document Service is located at
 * apiKey (string | _required_) - The API Key you are given to communication with DMS
 * apiSecret (string | _required_) - The API Secret you are given to communication with DMS
 * apiCustomer (string | _required_) - The API Customer you are given to communication with DMS
@@ -49,13 +49,28 @@ Whenever the API makes a call and runs into a catch block, you will get an error
 }
 ```
 
-### getPreSignedConfig() [GET /api/v1/pre-sign](https://dev-dms.meetmaestro.com:3000/#api-Signing-Pre_Sign_Url)
-This endpoint is used for creating policies in order to upload content to your S3 bucket Note: You must send the payload to S3 in the order that we send them back
+### getPreSignedData({ fileName: string, acl: string,  expiration: number }) [GET /api/v1/pre-sign](https://dev-dms.meetmaestro.com:3000/#api-Signing-Pre_Sign_Url)
+
+This endpoint is used for creating policies in order to upload content to your S3 bucket Note: You must send the payload to S3 in the order that we send them back.
+
+You can append anything you want to the `key` property (including the file extension)
+
+You can also update the `Content-Type` to the real mime-type.
+
+**Parameters**
+* fileName (string | _optional_) - Set this if you want to name the file.
+* acl (string | _optional_ | _default: private_) - This is the permissions for the file. Options are `private|public`
+* expiration (number | _optional_ | _default: 1800_) - This is expiration time for the signature in seconds
 
 **Request Example:**
 ```javascript
-dms.getPreSignedConfig()
+dms.getPreSignedConfig({
+    acl: 'public',
+    fileName: 'test.pdf',
+    expiration: 120
+})
 ```
+
 **Response Example:**
 ```
 {
@@ -70,13 +85,16 @@ dms.getPreSignedConfig()
 }
 ```
 
-### getSignedUrl() [GET /api/v1/sign](https://dev-dms.meetmaestro.com:3000/#api-Signing-Sign_Url)
+### getSignedUrl(url: string, expiration: number) [GET /api/v1/sign](https://dev-dms.meetmaestro.com:3000/#api-Signing-Sign_Url)
 This endpoint is used for signing your S3 private content
 
+**Parameters**
+* url (string | _required_) - The url of the private S3 content you want to view
+* expiration (number | _optional_ | _default: 1800_) - This is expiration time for the signature in seconds
 
 **Request Example:**
 ```javascript
-dms.getSignedUrl('https://new-media-test-bucket.s3.amazonaws.com/test.pdf')
+dms.getSignedUrl('https://new-media-test-bucket.s3.amazonaws.com/test.pdf', 2000)
 ```
 **Response Example:**
 ```

@@ -1,5 +1,5 @@
 {
-  "name": "@teammaestro/node-document-service-client",
+  "name": "@teammaestro/node-document-service",
   "private": false,
   "version": "1.0.0",
   "description": "A TypeScript node.js client that interfaces with the Maestro Document Service",
@@ -19,12 +19,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/TeamMaestro/node-document-service-client/"
+    "url": "https://github.com/TeamMaestro/node-document-service/"
   },
   "license": "Apache 2.0",
   "dependencies": {
     "lodash": "^4.17.4",
     "mime": "^1.3.4",
+    "query-string": "^5.0.1",
     "request": "^2.83.0",
     "request-promise": "^4.2.2"
   },
