@@ -106,7 +106,7 @@ export class DocumentService {
             expiration
         });
         return this.request<DocumentServiceOptions.DownloadInfo>({
-            uri: `api/v1/sign${params}`,
+            path: `api/v1/sign${params}`,
         });
     }
 
