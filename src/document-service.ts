@@ -89,7 +89,7 @@ export class DocumentService {
             throw new Error('Invalid View Data');
         }
 
-        return this.request<DocumentServiceOptions.RegistrationResponse>({
+        return this.request<DocumentServiceOptions.ViewResponse>({
             path: 'api/v1/view',
             method: 'POST',
             body: options
