@@ -40,52 +40,6 @@ export class DocumentService {
     }
 
     /**
-     * This method with go through an create the query string used for
-     * several methods
-     * @return {String}
-     */
-    private createQueryString(queryObj: any) {
-        return Object.keys(queryObj).length ? `?${querystring.stringify(queryObj)}` : '';
-    }
-
-    /**
-     * This method builds the request and returns the promise chain
-     * @return {Promise<T>}
-     */
-    private request<T>(options: DocumentServiceOptions.RequestOptions = {}): Promise<T> {
-        const startTime = Date.now();
-        const requestOptions = this.defaultRequestOptions;
-        requestOptions.method = options.method || requestOptions.method;
-        requestOptions.uri += `/${options.path}`;
-        requestOptions.body = options.body;
-        requestOptions.forrmData = options.forrmData;
-
-        if (options.headers && options.headers.length > 0) {
-            requestOptions.headers = Object.assign({}, requestOptions.headers, options.headers);
-        }
-        return new Promise((resolve, reject) => {
-            request(requestOptions as any).then(response => {
-                if (this.logging) {
-                    // tslint:disable-next-line:no-console
-                    console.info({
-                        statusCode: response.statusCode,
-                        body: response.body,
-                        duration: Date.now() - startTime
-                    });
-                }
-                resolve(response.body);
-            }).catch(error => {
-                reject({
-                    error,
-                    status: error.statusCode || 500,
-                    message: error.message,
-                    duration: Date.now() - startTime
-                });
-            });
-        });
-    }
-
-    /**
      * This method fetches the pre-signed data used to upload data to S3
      * @return {Promise<T>}
      */
@@ -107,6 +61,38 @@ export class DocumentService {
         });
         return this.request<DocumentServiceOptions.DownloadInfo>({
             path: `api/v1/sign${params}`,
+        });
+    }
+
+    /**
+     * This method will register the media with DMS
+     * @return {Promise<T>}
+     */
+    register(options = {} as DocumentServiceOptions.RegistrationData) {
+        if (!options.identity || !options.title || !options.path || !options.mediaType) {
+            throw new Error('Invalid Registration Data');
+        }
+
+        return this.request<DocumentServiceOptions.RegistrationResponse>({
+            path: 'api/v1/register',
+            method: 'POST',
+            body: options
+        });
+    }
+
+    /**
+     * This method will ping DMS for the view information on registered media
+     * @return {Promise<T>}
+     */
+    view(options = {} as DocumentServiceOptions.RegistrationData) {
+        if (!options.identity || !options.title || !options.path || !options.mediaType) {
+            throw new Error('Invalid View Data');
+        }
+
+        return this.request<DocumentServiceOptions.RegistrationResponse>({
+            path: 'api/v1/view',
+            method: 'POST',
+            body: options
         });
     }
 
@@ -170,5 +156,51 @@ export class DocumentService {
             return _.keyBy(files, 'originalFilename');
         });
 
+    }
+
+    /**
+     * This method with go through an create the query string used for
+     * several methods
+     * @return {String}
+     */
+    private createQueryString(queryObj: any) {
+        return Object.keys(queryObj).length ? `?${querystring.stringify(queryObj)}` : '';
+    }
+
+    /**
+     * This method builds the request and returns the promise chain
+     * @return {Promise<T>}
+     */
+    private request<T>(options: DocumentServiceOptions.RequestOptions = {}): Promise<T> {
+        const startTime = Date.now();
+        const requestOptions = this.defaultRequestOptions;
+        requestOptions.method = options.method || requestOptions.method;
+        requestOptions.uri += `/${options.path}`;
+        requestOptions.body = options.body;
+        requestOptions.formData = options.formData;
+
+        if (options.headers && options.headers.length > 0) {
+            requestOptions.headers = Object.assign({}, requestOptions.headers, options.headers);
+        }
+        return new Promise((resolve, reject) => {
+            request(requestOptions as any).then(response => {
+                if (this.logging) {
+                    // tslint:disable-next-line:no-console
+                    console.info({
+                        statusCode: response.statusCode,
+                        body: response.body,
+                        duration: Date.now() - startTime
+                    });
+                }
+                resolve(response.body);
+            }).catch(error => {
+                reject({
+                    error,
+                    status: error.statusCode || 500,
+                    message: error.message,
+                    duration: Date.now() - startTime
+                });
+            });
+        });
     }
 }
