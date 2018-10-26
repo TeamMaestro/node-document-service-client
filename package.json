@@ -1,5 +1,5 @@
 {
-  "name": "@teammaestro/node-document-service",
+  "name": "@teamhive/node-document-service",
   "private": false,
   "version": "1.0.2",
   "description": "A TypeScript node.js client that interfaces with the Maestro Document Service",
@@ -12,9 +12,8 @@
     "prepack": "tsc",
     "postpack": "rm *.d.ts && rm *.js"
   },
-  "author": "Maestro LLC",
+  "author": "TeamHive",
   "contributors": [
-    "Eddie Hinkle <hello@eddiehinkle.com> (https://eddiehinkle.com)",
     "John Pinkster <jpinkster>"
   ],
   "repository": {
