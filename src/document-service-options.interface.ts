@@ -57,6 +57,10 @@ export namespace DocumentServiceOptions {
         path: string;
         // The contents media type used for determining all the registration requirements
         mediaType: MediaType;
+        // If the file should be converted
+        shouldConvert?: boolean;
+        // If a thumbnail should be generated
+        shouldGenerateThumbnail?: boolean;
     }
 
     export interface RegistrationResponse {
