@@ -58,7 +58,7 @@ Whenever the API makes a call and runs into a catch block, you will get an error
 }
 ```
 
-### getPreSignedData({ fileName: string, acl: string,  expiration: number }) [GET /api/v1/pre-sign](https://dev-dms.meetmaestro.com:3000/#api-Signing-Pre_Sign_Url)
+### getPreSignedData({ fileName: string, acl: string,  expiration: number }) [GET /api/v1/pre-sign](https://dev-dms.meetmaestro.com/docs/development/index.html#api-Signing-Pre_Sign_Url)
 
 This endpoint is used for creating policies in order to upload content to your S3 bucket Note: You must send the payload to S3 in the order that we send them back.
 
@@ -97,7 +97,7 @@ dms.getPreSignedConfig({
 }
 ```
 
-### getSignedUrl(url: string, expiration: number) [GET /api/v1/sign](https://dev-dms.meetmaestro.com:3000/#api-Signing-Sign_Url)
+### getSignedUrl(url: string, expiration: number) [GET /api/v1/sign](https://dev-dms.meetmaestro.com/docs/development/index.html#api-Signing-Sign_Url)
 This endpoint is used for signing your S3 private content
 
 **Parameters**
@@ -119,8 +119,7 @@ dms.getSignedUrl('https://new-media-test-bucket.s3.amazonaws.com/test.pdf', 2000
 }
 ```
 
-<!-- TODO: links are not working to docs, and these next two are wrong -->
-### register(options: DocumentServiceOptions.RegistrationData) [POST /api/v1/register] (https://dev-dms.meetmaestro.com:3000/#api-Signing-Sign_Url)
+### register(options: DocumentServiceOptions.RegistrationData) [POST /api/v1/register] (https://dev-dms.meetmaestro.com/docs/development/index.html#api-Signing-Sign_Url)
 This endpoint is used to register your content with the document service.
 
 **Parameters**
@@ -128,7 +127,7 @@ This endpoint is used to register your content with the document service.
 |Name|Type|Required|Description|
 |---|---|---|---|
 |options.title|string|True| The title of the content|
-|options.identity|string|True| The identity of the content that DMS will use for callbacks|
+|options.identity|string|True| The identity that DMS will use for callbacks|
 |options.path|string|True| The location of the content in S3|
 |options.mediaType|MediaType|True| The contents media type used for determining all the registration requirements|
 |options.shouldConvert|boolean|False| If the file should be converted|
@@ -151,7 +150,7 @@ dms.register({
 }
 ```
 
-### view(options: DocumentServiceOptions.RegistrationData) [POST /api/v1/view] (https://dev-dms.meetmaestro.com:3000/#api-Signing-Sign_Url)
+### view(options: DocumentServiceOptions.RegistrationData) [POST /api/v1/view] (https://dev-dms.meetmaestro.com/docs/development/index.html#api-Signing-Sign_Url)
 This endpoint is used for generating the information you need to view the content
 
 The payload will be a little dynamic based on the content type
@@ -161,7 +160,7 @@ The payload will be a little dynamic based on the content type
 |Name|Type|Required|Description|
 |---|---|---|---|
 |options.title|string|True| The title of the content|
-|options.identity|string|True| The identity of the content that DMS will use for callbacks|
+|options.identity|string|True| The identity that DMS will use for callbacks|
 |options.path|string|True| The location of the content in S3|
 |options.mediaType|MediaType|True| The contents media type used for determining all the registration requirements|
 
