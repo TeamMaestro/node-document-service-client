@@ -1,5 +1,1 @@
-export type MediaProcessingCallbackType =
-    'CONVERSION_PROCESSING' |
-    'CONVERSION_FINISHED' |
-    'GENERATE_THUMBNAIL_PROCESSING' |
-    'GENERATE_THUMBNAIL_FINISHED';
+export type MediaProcessingCallbackType = 'THUMBNAIL' | 'PROCESSING';
