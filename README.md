@@ -58,7 +58,7 @@ Whenever the API makes a call and runs into a catch block, you will get an error
 }
 ```
 
-### getPreSignedData({ fileName: string, acl: string,  expiration: number }) [GET /api/v1/pre-sign](https://dev-dms.meetmaestro.com:3000/#api-Signing-Pre_Sign_Url)
+### getPreSignedData({ fileName: string, acl: string,  expiration: number }) [GET /api/v1/pre-sign](https://dev-dms.meetmaestro.com/docs/development/index.html#api-Signing-Pre_Sign_Url)
 
 This endpoint is used for creating policies in order to upload content to your S3 bucket Note: You must send the payload to S3 in the order that we send them back.
 
@@ -97,7 +97,7 @@ dms.getPreSignedConfig({
 }
 ```
 
-### getSignedUrl(url: string, expiration: number) [GET /api/v1/sign](https://dev-dms.meetmaestro.com:3000/#api-Signing-Sign_Url)
+### getSignedUrl(url: string, expiration: number) [GET /api/v1/sign](https://dev-dms.meetmaestro.com/docs/development/index.html#api-Signing-Sign_Url)
 This endpoint is used for signing your S3 private content
 
 **Parameters**
@@ -116,6 +116,79 @@ dms.getSignedUrl('https://new-media-test-bucket.s3.amazonaws.com/test.pdf', 2000
 {
   "url": "https://bucket.s3.amazonaws.com/73aff5ee-a986-4af...",
   "expiration": "2017-04-06T14:49:16.267Z"
+}
+```
+
+### register(options: DocumentServiceOptions.RegistrationData) [POST /api/v1/register] (https://dev-dms.meetmaestro.com/docs/development/index.html#api-Signing-Sign_Url)
+This endpoint is used to register your content with the document service.
+
+**Parameters**
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|options.title|string|True| The title of the content|
+|options.identity|string|True| The identity that DMS will use for callbacks|
+|options.path|string|True| The location of the content in S3|
+|options.mediaType|MediaType|True| The contents media type used for determining all the registration requirements|
+|options.shouldConvert|boolean|False| If the file should be converted|
+|options.shouldGenerateThumbnail|boolean|False| If a thumbnail should be generated|
+
+**Request Example:**
+```javascript
+dms.register({
+    title: 'Training Intro',
+    identity: 'ad9991a8-ab82-4521-befe-a8f2f956ce12',
+    path: 'https://new-media-test-bucket.s3.amazonaws.com/test.pdf',
+    mediaType: 'PDF',
+    shouldGenerateThumbnail: true
+})
+```
+**Response Example:**
+```
+{
+  "code": "MEDIA_PROCESSING"
+}
+```
+
+### view(options: DocumentServiceOptions.RegistrationData) [POST /api/v1/view] (https://dev-dms.meetmaestro.com/docs/development/index.html#api-Signing-Sign_Url)
+This endpoint is used for generating the information you need to view the content
+
+The payload will be a little dynamic based on the content type
+
+**Parameters**
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|options.title|string|True| The title of the content|
+|options.identity|string|True| The identity that DMS will use for callbacks|
+|options.path|string|True| The location of the content in S3|
+|options.mediaType|MediaType|True| The contents media type used for determining all the registration requirements|
+
+**Request Example:**
+```javascript
+dms.view({
+    title: 'Training Intro',
+    identity: 'ad9991a8-ab82-4521-befe-a8f2f956ce12',
+    path: 'https://new-media-test-bucket.s3.amazonaws.com/test.pdf',
+    mediaType: 'PDF'
+})
+```
+
+**Response Example:**
+```
+{
+  "url": "https://bucket.s3.amazonaws.com/73aff5ee-a986-4af...",
+  "downloadUrl": "https://bucket.s3.amazonaws.com/73aff5ee-a986-4af...",
+  "expiration": "2017-04-06T14:49:16.267Z",
+  "jwt": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2V..", (PDF only - The JWT needed for opening the pdf with PSPDFKit)
+  "documentId": 3 (PDF only - The documentId needed for opening the pdf with PSPDFKit)
+  "convertedContent": {
+    "url": "https://bucket.s3.amazonaws.com/73aff5ee-a986-4af...",
+    "downloadUrl": "https://bucket.s3.amazonaws.com/73aff5ee-a986-4af...",
+    "expiration": "2017-04-06T14:49:16.267Z",
+    "jwt": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2V..", (PDF only - The JWT needed for opening the pdf with PSPDFKit)
+    "documentId": 3 (PDF only - The documentId needed for opening the pdf with PSPDFKit)
+  }
 }
 ```
 

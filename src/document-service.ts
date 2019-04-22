@@ -3,7 +3,7 @@ import * as querystring from 'query-string';
 import * as _ from 'lodash';
 import * as fs from 'fs';
 import * as mime from 'mime';
-import { DocumentServiceOptions } from './index';
+import { DocumentServiceOptions } from './interfaces';
 
 export class DocumentService {
 

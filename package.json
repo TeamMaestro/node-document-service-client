@@ -10,7 +10,7 @@
     "watch": "tsc -w",
     "prepublishOnly": "tsc",
     "prepack": "tsc",
-    "postpack": "rm *.d.ts && rm *.js"
+    "postpack": "rm *.d.ts && rm *.js && rm -rf interfaces types"
   },
   "author": "TeamHive",
   "contributors": [

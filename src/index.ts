@@ -1,2 +1,3 @@
 export * from './document-service';
-export * from './document-service-options.interface';
+export * from './interfaces';
+export * from './types';
