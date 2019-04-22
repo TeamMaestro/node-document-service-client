@@ -8,7 +8,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "tsc -w",
-    "prepublishOnly": "tsc",
+    "postpublish": "git push && git push --tags",
     "prepack": "tsc",
     "postpack": "rm *.d.ts && rm *.js && rm -rf interfaces types"
   },
