@@ -119,7 +119,7 @@ dms.getSignedUrl('https://new-media-test-bucket.s3.amazonaws.com/test.pdf', 2000
 }
 ```
 
-### register(options: DocumentServiceOptions.RegistrationData) [POST /api/v1/register] (https://dev-dms.meetmaestro.com/docs/development/index.html#api-Signing-Sign_Url)
+### register(options: DocumentServiceOptions.RegistrationData) [POST /api/v1/register] (https://dev-dms.meetmaestro.com/docs/development/index.html#api-Content-Registration)
 This endpoint is used to register your content with the document service.
 
 **Parameters**
@@ -150,7 +150,7 @@ dms.register({
 }
 ```
 
-### view(options: DocumentServiceOptions.RegistrationData) [POST /api/v1/view] (https://dev-dms.meetmaestro.com/docs/development/index.html#api-Signing-Sign_Url)
+### view(options: DocumentServiceOptions.ViewOptions) [GET /api/v1/view/:identity] (https://dev-dms.meetmaestro.com/docs/development/index.html#api-Content-View)
 This endpoint is used for generating the information you need to view the content
 
 The payload will be a little dynamic based on the content type
@@ -159,18 +159,13 @@ The payload will be a little dynamic based on the content type
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|options.title|string|True| The title of the content|
 |options.identity|string|True| The identity that DMS will use for callbacks|
-|options.path|string|True| The location of the content in S3|
-|options.mediaType|MediaType|True| The contents media type used for determining all the registration requirements|
+|options.registrationId|string|False| The registrationId of the course in scorm engine|
 
 **Request Example:**
 ```javascript
 dms.view({
-    title: 'Training Intro',
-    identity: 'ad9991a8-ab82-4521-befe-a8f2f956ce12',
-    path: 'https://new-media-test-bucket.s3.amazonaws.com/test.pdf',
-    mediaType: 'PDF'
+    identity: 'ad9991a8-ab82-4521-befe-a8f2f956ce12'
 })
 ```
 

@@ -84,15 +84,17 @@ export class DocumentService {
      * This method will ping DMS for the view information on registered media
      * @return {Promise<T>}
      */
-    view(options = {} as DocumentServiceOptions.RegistrationData) {
-        if (!options.identity || !options.title || !options.path || !options.mediaType) {
+    view(options = {} as DocumentServiceOptions.ViewOptions) {
+        if (!options.identity) {
             throw new Error('Invalid View Data');
         }
 
+        const params = this.createQueryString({
+            registrationId: options.registrationId
+        });
+
         return this.request<DocumentServiceOptions.ViewResponse>({
-            path: 'api/v1/view',
-            method: 'POST',
-            body: options
+            path: `api/v1/view/${options.identity}${params}`
         });
     }
 

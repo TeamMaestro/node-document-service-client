@@ -67,6 +67,13 @@ export namespace DocumentServiceOptions {
         code: string;
     }
 
+    export interface ViewOptions {
+        // The identity of the content
+        identity: string;
+        // The registrationId of the course in scorm engine
+        registrationId?: string;
+    }
+
     export interface ViewResponse {
         // The aws signed url for pulling directly from s3
         url: string;
