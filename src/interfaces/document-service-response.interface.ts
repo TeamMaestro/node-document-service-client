@@ -15,16 +15,12 @@ export namespace DocumentServiceResponse {
     export interface ViewResponse {
         // The aws signed url for pulling directly from s3
         url: string;
-        // The aws signed url for downloading
-        downloadUrl: string;
         // The expiration of the signed url
         expiration: string;
-        // (PDF only) The JWT needed for opening the pdf with PSPDFKit
-        jwt?: string;
-        // (PDF Only) The documentId needed for opening the pdf with PSPDFKit
-        documentId?: number;
-        // If still processing you might get back a code
-        code?: string;
+        // The aws signed url for downloading
+        downloadUrl?: string;
+        // The view response for the converted content
+        convertedContent?: ViewResponse;
     }
 
     export interface RegistrationResponse {

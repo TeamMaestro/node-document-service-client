@@ -86,7 +86,7 @@ export class DocumentService {
         });
 
         return this.request<DocumentServiceResponse.ViewResponse>({
-            path: `api/v1/view/${options.identity}${params}`
+            path: `api/v1/content/${options.identity}/view/${params}`
         });
     }
 
