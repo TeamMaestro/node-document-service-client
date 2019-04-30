@@ -61,12 +61,12 @@ export class DocumentService {
      * @return {Promise<T>}
      */
     register(options = {} as DocumentServiceOptions.RegistrationData) {
-        if (!options.identity || !options.title || !options.path || !options.mediaType) {
+        if (!options.title || !options.path || !options.fileFormat) {
             throw new Error('Invalid Registration Data');
         }
 
         return this.request<DocumentServiceResponse.RegistrationResponse>({
-            path: 'api/v1/register',
+            path: 'api/v1/content',
             method: 'POST',
             body: options
         });

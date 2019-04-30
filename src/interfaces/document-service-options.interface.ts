@@ -31,19 +31,15 @@ export namespace DocumentServiceOptions {
         expiration?: number;
     }
 
-    export type MediaType = 'PDF'|'Documents'|'Audio'|'Courses'|'Images'|'Interactives'|'Websites'|'Video'|'Unsupported';
-
     export interface RegistrationData {
         // The title of the content
         title: string;
-        // The identity of the content that DMS will use for callbacks
-        identity: string;
         // The location of the content in S3
         path: string;
-        // The contents media type used for determining all the registration requirements
-        mediaType: MediaType;
-        // If the file should be converted
-        shouldConvert?: boolean;
+        // The format of the file
+        fileFormat: string;
+        // The format to convert the file to
+        convertFormat?: string;
         // If a thumbnail should be generated
         shouldGenerateThumbnail?: boolean;
     }

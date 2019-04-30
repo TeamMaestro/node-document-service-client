@@ -28,7 +28,8 @@ export namespace DocumentServiceResponse {
     }
 
     export interface RegistrationResponse {
-        code: string;
+        // The identity of the content in the Document Service
+        identity: string;
     }
 
     export interface SigningData {
