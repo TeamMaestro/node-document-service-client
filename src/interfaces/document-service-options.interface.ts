@@ -2,8 +2,6 @@ export namespace DocumentServiceOptions {
 
     export interface Config {
         apiKey: string;
-        apiSecret: string;
-        apiCustomer: string;
         host?: string;
         logging?: boolean;
     }

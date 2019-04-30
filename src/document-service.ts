@@ -8,15 +8,11 @@ import { DocumentServiceOptions } from './interfaces';
 export class DocumentService {
 
     private apiKey: string;
-    private apiSecret: string;
-    private apiCustomer: string;
     private host: string;
     private logging: boolean;
 
     constructor(config: DocumentServiceOptions.Config) {
         this.apiKey = config.apiKey;
-        this.apiSecret = config.apiSecret;
-        this.apiCustomer = config.apiCustomer;
         this.host = config.host || 'https://dms.meetmaestro.com';
         this.logging = config.logging || false;
     }
@@ -31,9 +27,7 @@ export class DocumentService {
             method: 'GET',
             json: true,
             headers: {
-                'media-api-key': this.apiKey,
-                'media-api-secret': this.apiSecret,
-                'media-api-customer': this.apiCustomer
+                Authorization: this.apiKey
             },
             resolveWithFullResponse: true
         };
