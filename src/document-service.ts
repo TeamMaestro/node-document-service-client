@@ -1,9 +1,7 @@
 import * as request from 'request-promise';
 import * as querystring from 'query-string';
 import * as _ from 'lodash';
-import * as fs from 'fs';
-import * as mime from 'mime';
-import { DocumentServiceOptions } from './interfaces';
+import { DocumentServiceOptions, DocumentServiceResponse } from './interfaces';
 
 export class DocumentService {
 
@@ -39,7 +37,7 @@ export class DocumentService {
      */
     getPreSignedData(options: DocumentServiceOptions.PreSignOptions = {}) {
         const params = this.createQueryString(options);
-        return this.request<DocumentServiceOptions.SigningData>({
+        return this.request<DocumentServiceResponse.SigningData>({
             path: `api/v1/pre-sign${params}`
         });
     }
@@ -53,7 +51,7 @@ export class DocumentService {
             path,
             expiration
         });
-        return this.request<DocumentServiceOptions.DownloadInfo>({
+        return this.request<DocumentServiceResponse.DownloadInfo>({
             path: `api/v1/sign${params}`,
         });
     }
@@ -67,7 +65,7 @@ export class DocumentService {
             throw new Error('Invalid Registration Data');
         }
 
-        return this.request<DocumentServiceOptions.RegistrationResponse>({
+        return this.request<DocumentServiceResponse.RegistrationResponse>({
             path: 'api/v1/register',
             method: 'POST',
             body: options
@@ -87,71 +85,9 @@ export class DocumentService {
             registrationId: options.registrationId
         });
 
-        return this.request<DocumentServiceOptions.ViewResponse>({
+        return this.request<DocumentServiceResponse.ViewResponse>({
             path: `api/v1/view/${options.identity}${params}`
         });
-    }
-
-    /**
-     * This method is used to upload locale files to S3
-     * @return {Promise<T>}
-     */
-    uploadFile(fileData: DocumentServiceOptions.FileConfig): Promise<{}> {
-
-        const localFile = fileData.directory + '/' + fileData.filename;
-        const fileExtension = (fileData.fileExtension ? fileData.fileExtension : fileData.filename.split('.').pop());
-        return new Promise((resolve, reject) => {
-            if (!fs.existsSync(localFile)) {
-                return reject(`Missing File: ${localFile}`);
-            }
-
-            return this.getPreSignedData().then((signingData: DocumentServiceOptions.SigningData) => {
-
-                // HERE
-                const form = {
-                    'key': `${signingData.key}.${fileExtension}`,
-                    'Content-Type': mime.lookup(fileExtension),
-                    'AWSAccessKeyId': signingData.AWSAccessKeyId,
-                    'acl': signingData.acl,
-                    'policy': signingData.policy,
-                    'signature': signingData.signature,
-                    'file': fs.createReadStream(localFile)
-                };
-
-                request.post({
-                    url: signingData.url,
-                    formData: form
-                }, (err, res, body) => {
-
-                    if (err !== undefined) {
-                        reject(err);
-                    }
-                    signingData.originalFilename = fileData.filename;
-                    signingData.fileExtension = fileExtension;
-                    // We want to return the signing data, not the file upload response, as that doesn't contain any important info unlike the signing data.
-                    resolve(signingData);
-
-                });
-            });
-        });
-    }
-
-    /**
-     * This method is used to upload several locale files to S3
-     * @return {Promise<T>}
-     */
-    uploadBulkFiles(localFiles: {}[]): Promise<{}> {
-
-        const promises: Promise<{}>[] = [];
-
-        localFiles.forEach((localFile: DocumentServiceOptions.FileConfig) => {
-            promises.push(this.uploadFile(localFile));
-        });
-
-        return Promise.all(promises).then((files) => {
-            return _.keyBy(files, 'originalFilename');
-        });
-
     }
 
     /**
@@ -167,7 +103,7 @@ export class DocumentService {
      * This method builds the request and returns the promise chain
      * @return {Promise<T>}
      */
-    private request<T>(options: DocumentServiceOptions.RequestOptions = {}): Promise<T> {
+    private async request<T>(options: DocumentServiceOptions.RequestOptions = {}): Promise<T> {
         const startTime = Date.now();
         const requestOptions = this.defaultRequestOptions;
         requestOptions.method = options.method || requestOptions.method;
@@ -176,8 +112,9 @@ export class DocumentService {
         requestOptions.formData = options.formData;
 
         if (options.headers && options.headers.length > 0) {
-            requestOptions.headers = Object.assign({}, requestOptions.headers, options.headers);
+            requestOptions.headers = { ...requestOptions.headers, ...options.headers };
         }
+
         return new Promise((resolve, reject) => {
             request(requestOptions as any).then(response => {
                 if (this.logging) {
