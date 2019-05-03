@@ -15,26 +15,18 @@ Import `@teammaestro/node-document-service` and the client will be exported into
 
 # Documentation
 ## Overview
-### new DocumentService({ host: string, apiKey: string, apiSecret: string, apiCustomer: string, logging: boolean })
+### new DocumentService(apiKey: string, options?: { host?: string, logging?: boolean | Function })
 **Parameters:**
 
-|Name|Type|Required|Description|
-|---|---|---|---|
-|host|string|False (_default: https://dms.meetmaestro.com_)| The domain that the Maestro Document Service is located at.|
-|apiKey|string|True| The API Key you are given to communication with DMS|
-|apiSecret|string|True| The API Secret you are given to communication with DMS|
-|apiCustomer|string|True| The API Customer you are given to communication with DMS|
-|logging|boolean|False (_default: false_)| Use this to turn on logging of all requests|
-
+* apiKey (string) - This is the API Key from your document managment service account
+* options.host (string | _optional_ | _default: https://dms.meetmaestro.com_) - The domain that DMS is located at
+* options.logging (boolean or Function | _optional_ ) - Use this to turn on logging or pass in your custom logger.
 
 **Request Example:**
 ```javascript
-new DocumentService({
-    host: 'https://dev-dms.meetmaestro.com';
-    apiKey: '432432',
-    apiSecret: '432432',
-    apiCustomer: '432432',
-    logging: true
+new DocumentService(apiKey: '123', {
+    host: 'https://dev-dms.meetmaestro.com',
+    logging: console.log
 })
 ```
 
@@ -58,7 +50,7 @@ Whenever the API makes a call and runs into a catch block, you will get an error
 }
 ```
 
-### getPreSignedData({ fileName: string, acl: string,  expiration: number }) [GET /api/v1/pre-sign](https://dev-dms.meetmaestro.com/docs/development/index.html#api-Signing-Pre_Sign_Url)
+### getPreSignedData({ filename: string, acl: string,  expiration: number }) [GET /api/v1/pre-sign](https://dev-dms.meetmaestro.com/docs/development/index.html#api-Signing-Pre_Sign_Url)
 
 This endpoint is used for creating policies in order to upload content to your S3 bucket Note: You must send the payload to S3 in the order that we send them back.
 
@@ -70,7 +62,7 @@ You can also update the `Content-Type` to the real mime-type.
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|fileName|string | False (_default: UUID_)| Set this if you want to name the file.|
+|filename|string | False (_default: UUID_)| Set this if you want to name the file.|
 |acl|string | False (_default: private_)| This is the permissions for the file. Options are `private|public`|
 |expiration|number | False (_default: 1800_) | This is expiration time for the signature in seconds|
 
@@ -78,7 +70,7 @@ You can also update the `Content-Type` to the real mime-type.
 ```javascript
 dms.getPreSignedConfig({
     acl: 'public',
-    fileName: 'test.pdf',
+    filename: 'test.pdf',
     expiration: 120
 })
 ```
@@ -119,7 +111,7 @@ dms.getSignedUrl('https://new-media-test-bucket.s3.amazonaws.com/test.pdf', 2000
 }
 ```
 
-### register(options: DocumentServiceOptions.RegistrationData) [POST /api/v1/register] (https://dev-dms.meetmaestro.com/docs/development/index.html#api-Signing-Sign_Url)
+### register(options: DocumentServiceOptions.RegistrationData) [POST /api/v1/content] (https://dev-dms.meetmaestro.com/docs/development/index.html#api-Content-Registration)
 This endpoint is used to register your content with the document service.
 
 **Parameters**
@@ -127,30 +119,28 @@ This endpoint is used to register your content with the document service.
 |Name|Type|Required|Description|
 |---|---|---|---|
 |options.title|string|True| The title of the content|
-|options.identity|string|True| The identity that DMS will use for callbacks|
 |options.path|string|True| The location of the content in S3|
-|options.mediaType|MediaType|True| The contents media type used for determining all the registration requirements|
-|options.shouldConvert|boolean|False| If the file should be converted|
+|options.fileFormat|MediaType|True| The format of the file
+|options.convertFormat|boolean|False| The format to convert the file to|
 |options.shouldGenerateThumbnail|boolean|False| If a thumbnail should be generated|
 
 **Request Example:**
 ```javascript
 dms.register({
     title: 'Training Intro',
-    identity: 'ad9991a8-ab82-4521-befe-a8f2f956ce12',
     path: 'https://new-media-test-bucket.s3.amazonaws.com/test.pdf',
-    mediaType: 'PDF',
+    fileFormat: 'PDF',
     shouldGenerateThumbnail: true
 })
 ```
 **Response Example:**
 ```
 {
-  "code": "MEDIA_PROCESSING"
+  "identity": "ad9991a8-ab82-4521-befe-a8f2f956ce12"
 }
 ```
 
-### view(options: DocumentServiceOptions.RegistrationData) [POST /api/v1/view] (https://dev-dms.meetmaestro.com/docs/development/index.html#api-Signing-Sign_Url)
+### view(options: DocumentServiceOptions.ViewOptions) [GET /api/v1/content/:identity/view] (https://dev-dms.meetmaestro.com/docs/development/index.html#api-Content-View)
 This endpoint is used for generating the information you need to view the content
 
 The payload will be a little dynamic based on the content type
@@ -159,18 +149,13 @@ The payload will be a little dynamic based on the content type
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|options.title|string|True| The title of the content|
 |options.identity|string|True| The identity that DMS will use for callbacks|
-|options.path|string|True| The location of the content in S3|
-|options.mediaType|MediaType|True| The contents media type used for determining all the registration requirements|
+|options.registrationId|string|False| The registrationId of the course in scorm engine|
 
 **Request Example:**
 ```javascript
 dms.view({
-    title: 'Training Intro',
-    identity: 'ad9991a8-ab82-4521-befe-a8f2f956ce12',
-    path: 'https://new-media-test-bucket.s3.amazonaws.com/test.pdf',
-    mediaType: 'PDF'
+    identity: 'ad9991a8-ab82-4521-befe-a8f2f956ce12'
 })
 ```
 
@@ -178,16 +163,14 @@ dms.view({
 ```
 {
   "url": "https://bucket.s3.amazonaws.com/73aff5ee-a986-4af...",
-  "downloadUrl": "https://bucket.s3.amazonaws.com/73aff5ee-a986-4af...",
   "expiration": "2017-04-06T14:49:16.267Z",
-  "jwt": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2V..", (PDF only - The JWT needed for opening the pdf with PSPDFKit)
-  "documentId": 3 (PDF only - The documentId needed for opening the pdf with PSPDFKit)
+  "downloadUrl": "https://bucket.s3.amazonaws.com/73aff5ee-a986-4af...",
+  "fileFormat": "docx",
   "convertedContent": {
     "url": "https://bucket.s3.amazonaws.com/73aff5ee-a986-4af...",
-    "downloadUrl": "https://bucket.s3.amazonaws.com/73aff5ee-a986-4af...",
     "expiration": "2017-04-06T14:49:16.267Z",
-    "jwt": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2V..", (PDF only - The JWT needed for opening the pdf with PSPDFKit)
-    "documentId": 3 (PDF only - The documentId needed for opening the pdf with PSPDFKit)
+    "downloadUrl": "https://bucket.s3.amazonaws.com/73aff5ee-a986-4af...",
+    "fileFormat": "pdf",
   }
 }
 ```

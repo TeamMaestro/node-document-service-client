@@ -1,11 +1,8 @@
 export namespace DocumentServiceOptions {
 
     export interface Config {
-        apiKey: string;
-        apiSecret: string;
-        apiCustomer: string;
         host?: string;
-        logging?: boolean;
+        logging?: boolean | ((message: any) => void);
     }
 
     export interface RequestOptions {
@@ -27,67 +24,35 @@ export namespace DocumentServiceOptions {
         fileExtension?: string;
     }
 
-    export interface PreSignOptions {
-        fileName?: string;
+    export interface PreSignPayload {
+        filename?: string;
         acl?: 'private' | 'public';
         expiration?: number;
     }
 
-    export interface SigningData {
-        // Everything in this top section is returned by the Document Service Sign Upload
-        key: string;
-        AWSAccessKeyId: string;
-        acl: string;
-        policy: string;
-        signature: string;
-        url: string;
-        // The optional properties in this bottom section are configured in this client and returned to calling functions
-        originalFilename?: string;
-        fileExtension?: string;
+    export interface SigningPayload {
+        path: string;
+        filename?: string;
+        expiration?: number;
     }
 
-    export type MediaType = 'PDF'|'Documents'|'Audio'|'Courses'|'Images'|'Interactives'|'Websites'|'Video'|'Unsupported';
-
-    export interface RegistrationData {
+    export interface RegistrationPayload {
         // The title of the content
         title: string;
-        // The identity of the content that DMS will use for callbacks
-        identity: string;
         // The location of the content in S3
         path: string;
-        // The contents media type used for determining all the registration requirements
-        mediaType: MediaType;
-        // If the file should be converted
-        shouldConvert?: boolean;
+        // The format of the file
+        fileFormat: string;
+        // The format to convert the file to
+        convertFormat?: string;
         // If a thumbnail should be generated
         shouldGenerateThumbnail?: boolean;
     }
 
-    export interface RegistrationResponse {
-        code: string;
-    }
-
-    export interface ViewResponse {
-        // The aws signed url for pulling directly from s3
-        url: string;
-        // The aws signed url for downloading
-        downloadUrl: string;
-        // The expiration of the signed url
-        expiration:	string;
-        // (PDF only) The JWT needed for opening the pdf with PSPDFKit
-        jwt?: string;
-        // (PDF Only) The documentId needed for opening the pdf with PSPDFKit
-        documentId?: number;
-        // If still processing you might get back a code
-        code?: string;
-    }
-
-    export interface DownloadInfo {
-        url: string;
-        expiration: number;
-    }
-
-    export interface SigningDataByFile {
-        [index: string]: SigningData;
+    export interface ViewPayload {
+        // The identity of the content
+        identity: string;
+        // The registrationId of the course in scorm engine
+        registrationId?: string;
     }
 }
