@@ -34,19 +34,14 @@ export class DocumentService {
      * @return {Promise<T>}
      */
     getSignedUrl(payload: DocumentServiceOptions.SigningPayload) {
-        const queryString = {
-            path: payload.path,
-            expiration: payload.expiration || 1800
-        };
-
-        if (payload.filename) {
-            queryString['filename'] = payload.filename;
+        if (!payload || !payload.path) {
+            throw new Error('Invalid Sign Data');
         }
 
-        const params = this.createQueryString(queryString);
-
         return this.request<DocumentServiceResponse.SigningResponse>({
-            path: `api/v1/sign${params}`,
+            path: `api/v1/sign`,
+            method: 'POST',
+            body: payload
         });
     }
 
