@@ -34,6 +34,10 @@ export namespace DocumentServiceResponse {
     }
 
     export interface ViewResponse {
+        // The status code
+        statusCode: number;
+        // The status message
+        message?: string;
         // The aws signed url for pulling directly from s3
         url: string;
         // The expiration of the signed url
