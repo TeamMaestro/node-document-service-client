@@ -20,6 +20,7 @@ export namespace DocumentServiceResponse {
         policy: string;
         signature: string;
         url: string;
+        expiration: string;
         // The optional properties in this bottom section are configured in this client and returned to calling functions
         originalFilename?: string;
         fileExtension?: string;
