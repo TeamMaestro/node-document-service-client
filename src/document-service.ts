@@ -50,7 +50,7 @@ export class DocumentService {
      * @return {Promise<T>}
      */
     register(payload: DocumentServiceOptions.RegistrationPayload) {
-        if (!payload || !payload.title || !payload.path || !payload.fileFormat) {
+        if (!payload || !payload.path || !payload.fileFormat) {
             throw new Error('Invalid Registration Data');
         }
 
@@ -79,10 +79,10 @@ export class DocumentService {
         });
     }
 
-     /**
-      * The default request options used with request
-      * @return {Object}
-      */
+    /**
+     * The default request options used with request
+     * @return {Object}
+     */
     private get defaultRequestOptions(): DocumentServiceOptions.RequestOptions {
         return {
             uri: `${this.host}`,
