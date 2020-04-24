@@ -18,6 +18,14 @@ export class DocumentService {
         }
     }
 
+    setApiKey(apiKey: string) {
+        this.apiKey = apiKey;
+    }
+
+    setHost(host: string) {
+        this.host = host;
+    }
+
     /**
      * This method fetches the pre-signed data used to upload data to S3
      * @return {Promise<T>}
@@ -56,6 +64,18 @@ export class DocumentService {
 
         return this.request<DocumentServiceResponse.RegistrationResponse>({
             path: 'api/v1/content',
+            method: 'POST',
+            body: payload
+        });
+    }
+
+    generateMediaFromWordTemplate(payload: DocumentServiceOptions.WordTemplateRequestPayload) {
+        if (!payload || !payload.templateIdentity || !payload.payload) {
+            return new Error('Invalid template request');
+        }
+
+        return this.request<void>({
+            path: 'api/v1/word-template',
             method: 'POST',
             body: payload
         });
