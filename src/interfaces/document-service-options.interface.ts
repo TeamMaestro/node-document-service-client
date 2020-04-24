@@ -47,7 +47,51 @@ export namespace DocumentServiceOptions {
         convertFormat?: string;
         // If a thumbnail should be generated
         shouldGenerateThumbnail?: boolean;
+        /**
+         * An open metadata field that will be returned on all callback
+         * requests.
+         */
+        metadata?: any;
     }
+
+    export interface WordTemplateRequestPayload {
+        /**
+         * Identity of the template for the request
+         */
+        templateIdentity: string;
+
+        /**
+         * The title of the output
+         */
+        title: string;
+
+        /**
+         * The payload to use for the template
+         */
+        payload: WordTemplatePayload;
+
+        /**
+         * Metadata used to identify the request upon callback
+         */
+        metadata: any;
+    }
+
+    export interface WordTemplatePayload {
+        replacements?: {
+            [key: string]: string;
+        };
+        images?: {
+            [key: string]: ImagePayload;
+        };
+    }
+
+    export interface ImagePayload {
+        url?: string;
+        svgString?: string;
+        height?: number;
+        width?: number;
+    }
+
 
     export interface ViewPayload {
         // The identity of the content
