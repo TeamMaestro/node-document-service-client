@@ -1,8 +1,8 @@
 import { MediaProcessingCallbackStatus, MediaProcessingCallbackType } from '../types';
+import { ContentStatus } from '../types/content-status.type';
 
 // tslint:disable-next-line:no-namespace
 export namespace DocumentServiceResponse {
-
     export interface MediaProcessingCallback {
         type: MediaProcessingCallbackType;
         status: MediaProcessingCallbackStatus;
@@ -42,12 +42,17 @@ export namespace DocumentServiceResponse {
         // The aws signed url for pulling directly from s3
         url: string;
         // The expiration of the signed url
-        expiration:	string;
+        expiration: string;
         // The file format
         fileFormat: string;
         // The aws signed url for downloading
         downloadUrl?: string;
         // The converted content's view response
         convertedContent?: ViewResponse;
+    }
+
+    export interface ContentStatusResponse {
+        // The status
+        status: ContentStatus;
     }
 }

@@ -1,5 +1,4 @@
 export namespace DocumentServiceOptions {
-
     export interface Config {
         host?: string;
         logging?: boolean | ((message: any) => void);
@@ -92,11 +91,15 @@ export namespace DocumentServiceOptions {
         width?: number;
     }
 
-
     export interface ViewPayload {
         // The identity of the content
         identity: string;
         // The registrationId of the course in scorm engine
         registrationId?: string;
+    }
+
+    export interface ContentStatusPayload {
+        // The identity of the content
+        identity: string;
     }
 }

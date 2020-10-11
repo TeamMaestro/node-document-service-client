@@ -3,7 +3,6 @@ import * as request from 'request-promise';
 import { DocumentServiceOptions, DocumentServiceResponse } from './interfaces';
 
 export class DocumentService {
-
     private apiKey: string;
     private host: string;
     private logger: (message: any) => void;
@@ -14,7 +13,7 @@ export class DocumentService {
         this.host = config.host || 'https://dms.meetmaestro.com';
 
         if (config.logging) {
-            this.logger = (typeof config.logging === 'function') ? config.logging : console.log;
+            this.logger = typeof config.logging === 'function' ? config.logging : console.log;
         }
     }
 
@@ -33,7 +32,7 @@ export class DocumentService {
     getPreSignedData(payload: DocumentServiceOptions.PreSignPayload = {}) {
         const params = this.createQueryString(payload);
         return this.request<DocumentServiceResponse.PreSignResponse>({
-            path: `api/v1/pre-sign${params}`
+            path: `api/v1/pre-sign${params}`,
         });
     }
 
@@ -49,7 +48,7 @@ export class DocumentService {
         return this.request<DocumentServiceResponse.SigningResponse>({
             path: `api/v1/sign`,
             method: 'POST',
-            body: payload
+            body: payload,
         });
     }
 
@@ -65,7 +64,7 @@ export class DocumentService {
         return this.request<DocumentServiceResponse.RegistrationResponse>({
             path: 'api/v1/content',
             method: 'POST',
-            body: payload
+            body: payload,
         });
     }
 
@@ -77,7 +76,7 @@ export class DocumentService {
         return this.request<void>({
             path: 'api/v1/word-template',
             method: 'POST',
-            body: payload
+            body: payload,
         });
     }
 
@@ -91,11 +90,25 @@ export class DocumentService {
         }
 
         const params = this.createQueryString({
-            registrationId: payload.registrationId
+            registrationId: payload.registrationId,
         });
 
         return this.request<DocumentServiceResponse.ViewResponse>({
-            path: `api/v1/content/${payload.identity}/view${params}`
+            path: `api/v1/content/${payload.identity}/view${params}`,
+        });
+    }
+
+    /**
+     * This method will ping DMS for the status on content
+     * @return {Promise<T>}
+     */
+    status(payload: DocumentServiceOptions.ContentStatusPayload) {
+        if (!payload.identity) {
+            throw new Error('Invalid View Data');
+        }
+
+        return this.request<DocumentServiceResponse.ContentStatusResponse>({
+            path: `api/v1/content/${payload.identity}/status`,
         });
     }
 
@@ -109,9 +122,9 @@ export class DocumentService {
             method: 'GET',
             json: true,
             headers: {
-                Authorization: `Bearer ${this.apiKey}`
+                Authorization: `Bearer ${this.apiKey}`,
             },
-            resolveWithFullResponse: true
+            resolveWithFullResponse: true,
         };
     }
 
@@ -140,23 +153,25 @@ export class DocumentService {
             requestOptions.headers = Object.assign({}, requestOptions.headers, options.headers);
         }
         return new Promise((resolve, reject) => {
-            request(requestOptions as any).then(response => {
-                if (this.logger) {
-                    this.logger({
-                        statusCode: response.statusCode,
-                        body: response.body,
-                        duration: Date.now() - startTime
+            request(requestOptions as any)
+                .then(response => {
+                    if (this.logger) {
+                        this.logger({
+                            statusCode: response.statusCode,
+                            body: response.body,
+                            duration: Date.now() - startTime,
+                        });
+                    }
+                    resolve(response.body);
+                })
+                .catch(error => {
+                    reject({
+                        error,
+                        status: error.statusCode || 500,
+                        message: error.message,
+                        duration: Date.now() - startTime,
                     });
-                }
-                resolve(response.body);
-            }).catch(error => {
-                reject({
-                    error,
-                    status: error.statusCode || 500,
-                    message: error.message,
-                    duration: Date.now() - startTime
                 });
-            });
         });
     }
 }
