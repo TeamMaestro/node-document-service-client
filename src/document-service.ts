@@ -26,6 +26,16 @@ export class DocumentService {
     }
 
     /**
+     * This method fetches the bucket name that the connection uses
+     * @return {Promise<DocumentServiceResponse.BucketResponse>}
+     */
+    getBucket() {
+        return this.request<DocumentServiceResponse.BucketResponse>({
+            path: `api/v1/bucket`,
+        });
+    }
+
+    /**
      * This method fetches the pre-signed data used to upload data to S3
      * @return {Promise<T>}
      */

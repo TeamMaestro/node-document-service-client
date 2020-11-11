@@ -55,4 +55,9 @@ export namespace DocumentServiceResponse {
         // The status
         status: ContentStatus;
     }
+
+    export interface BucketResponse {
+        // The Bucket
+        bucket: string;
+    }
 }
