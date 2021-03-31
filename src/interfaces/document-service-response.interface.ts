@@ -34,6 +34,11 @@ export namespace DocumentServiceResponse {
         identity: string;
     }
 
+    export interface WordTemplateRequestResponse {
+        identity: string;
+        resourceUrl: string;
+    }
+
     export interface ViewResponse {
         // The status code
         statusCode: number;
