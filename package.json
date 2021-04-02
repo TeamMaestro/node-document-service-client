@@ -1,7 +1,7 @@
 {
   "name": "@teamhive/node-document-service",
   "private": false,
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "A TypeScript node.js client that interfaces with the Maestro Document Service",
   "main": "index.js",
   "typings": "index.d.ts",
