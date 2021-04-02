@@ -83,7 +83,7 @@ export class DocumentService {
             return new Error('Invalid template request');
         }
 
-        return this.request<void>({
+        return this.request<DocumentServiceResponse.WordTemplateRequestResponse>({
             path: 'api/v1/word-template',
             method: 'POST',
             body: payload,

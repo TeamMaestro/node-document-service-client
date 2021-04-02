@@ -36,6 +36,8 @@ export namespace DocumentServiceOptions {
     }
 
     export interface RegistrationPayload {
+        // if provided, content will be created with this uuid as the identity
+        identity?: string;
         // The title of the content
         title: string;
         // The location of the content in S3
