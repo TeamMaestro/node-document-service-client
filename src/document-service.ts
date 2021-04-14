@@ -79,7 +79,7 @@ export class DocumentService {
     }
 
     generateMediaFromWordTemplate(payload: DocumentServiceOptions.WordTemplateRequestPayload) {
-        if (!payload || !payload.templateIdentity || !payload.payload) {
+        if (!payload || (!payload.templateIdentity && !payload.contentIdentity) || !payload.payload) {
             return new Error('Invalid template request');
         }
 

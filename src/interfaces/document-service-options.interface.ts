@@ -57,9 +57,16 @@ export namespace DocumentServiceOptions {
 
     export interface WordTemplateRequestPayload {
         /**
-         * Identity of the template for the request
+         * Identity of the template for the request. This is the identity of a template
+         * set up specifically for word template registrations.
          */
-        templateIdentity: string;
+        templateIdentity?: string;
+
+        /**
+         * Identity of a word doc content in dms that will be used to register the template
+         * request.
+         */
+        contentIdentity?: string;
 
         /**
          * The title of the output
